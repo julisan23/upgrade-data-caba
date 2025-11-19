@@ -1,7 +1,9 @@
-﻿{
+{
   "name": "upgrade-data-caba",
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "scripts": { "dev": "vercel dev" }
+  "scripts": {
+    "dev": "vercel dev"
+  }
 }
