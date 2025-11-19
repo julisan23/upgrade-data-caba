@@ -1,4 +1,13 @@
 ﻿{
-  "functions": { "api/**/*.js": { "runtime": "edge" } },
-  "crons": [ { "path": "/api/update-all", "schedule": "0 3 * * *" } ]
+  "functions": {
+    "api/**/*.js": {
+      "runtime": "edge"
+    }
+  },
+  "crons": [
+    {
+      "path": "/api/update-all",
+      "schedule": "0 3 * * *"
+    }
+  ]
 }
