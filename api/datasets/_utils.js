@@ -1,0 +1,10 @@
+﻿export async function fetchText(url){const r=await fetch(url,{cache:"no-store"});if(!r.ok)throw new Error("Error "+r.status);return await r.text()}
+export function parseCSV(t){const r=[];let e=[],a="",n=!1;for(let s=0;s<t.length;s++){const c=t[s],o=t[s+1];if(c=='"'&&n&&o=='"'){a+='"';s++;continue}if(c=='"'){n=!n;continue}if(c==","&&!n){e.push(a);a="";continue}if((c=="\n"||c=="\r")&&!n){if(c=="\r"&&o=="\n")s++;e.push(a);a="";if(e.length>1||(e.length==1&&e[0]!=""))r.push(e);e=[];continue}a+=c}if(a.length||e.length){e.push(a);r.push(e)}if(!r.length)return[];const h=r[0].map(h=>h.trim());return r.slice(1).map(l=>{const o={};h.forEach((h,i)=>o[h]= (l[i]??"").trim());return o})}
+export function pick(o,k){for(const x of k){if(o[x])return o[x];const a=Object.keys(o).find(y=>y.toLowerCase()==x.toLowerCase());if(a&&o[a])return o[a]}return null}
+export function toNumber(x){if(!x)return null;const n=Number(String(x).replace(",","."));return Number.isFinite(n)?n:null}
+export function normalizeParcelario(d){return d.map(r=>({calle:pick(r,["calle","CALLE"]),altura:toNumber(pick(r,["altura","ALTURA"])),NC:pick(r,["NC","nc"]),superficie:toNumber(pick(r,["superficie","SUPERFICIE"]))}))}
+export function normalizeCUR2024(d){return d.map(r=>({zonificacion:pick(r,["ZONIFICACION","zonificacion"]),altura_maxima:toNumber(pick(r,["ALTURA_MAXIMA","altura_maxima"])),USO_1:pick(r,["USO_1","uso_1"])}))}
+export function normalizeCPU(d){return d.map(r=>({DIST_CPU_1:pick(r,["DIST_CPU_1"]),DIST_CPU_2:pick(r,["DIST_CPU_2"]),CPU_BASE:pick(r,["CPU_BASE"]),CPU_OBS:pick(r,["CPU_OBS"]),fot_em_1:toNumber(pick(r,["fot_em_1"])),fot_em_2:toNumber(pick(r,["fot_em_2"]))}))}
+export function normalizeAfectaciones(d){return d.map(r=>({codigo:pick(r,["codigo","CODIGO","afectacion","AFECTACION"]),descripcion:pick(r,["descripcion","DESCRIPCION"]),tipo:pick(r,["tipo","TIPO"])}))}
+export async function fetchAndNormalizeCSV(url,n){const c=await fetchText(url);return n(parseCSV(c))}
+export function jsonResponse(o,s=200){return new Response(JSON.stringify(o),{status:s,headers:{"content-type":"application/json"}})}
