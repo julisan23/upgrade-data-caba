@@ -1,0 +1,14 @@
+{
+  "builds": [
+    {
+      "src": "api/**/*.js",
+      "use": "@vercel/edge-functions"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/$1.js"
+    }
+  ]
+}
